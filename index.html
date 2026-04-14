@@ -98,14 +98,6 @@
         clearInterval(interval);
         status.textContent = "Complete.";
 
-        // Open new tab
-        const newTab = window.open("", "_blank");
-        if (newTab) {
-          newTab.document.write(`
-            <h1 style="font-family:Arial;">SCORE 2.0 is now ready</h1>
-            <p>You may close this tab.</p>
-          `);
-        }
       }
     }, 200);
   </script>
