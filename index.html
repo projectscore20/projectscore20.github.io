@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SCORE 2.0 Loading</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f1115;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+
+    .bar {
+      width: 100%;
+      height: 18px;
+      background: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      transition: width 0.2s linear;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Welcome to SCORE 2.0</h1>
+
+    <p>
+      Your new browser tab will open shortly. This process usually takes around 3 minutes.
+      If the new page is unresponsive, try reloading.
+    </p>
+
+    <div class="bar">
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <div class="status" id="status">Initializing...</div>
+  </div>
+
+  <script>
+    const progress = document.getElementById("progress");
+    const status = document.getElementById("status");
+
+    // 3 minutes total (180,000 ms)
+    const duration = 180000;
+
+    const start = Date.now();
+
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - start;
+      const percent = Math.min((elapsed / duration) * 100, 100);
+
+      progress.style.width = percent + "%";
+
+      if (percent < 30) status.textContent = "Starting system...";
+      else if (percent < 60) status.textContent = "Loading modules...";
+      else if (percent < 90) status.textContent = "Finalizing setup...";
+      else status.textContent = "Almost ready...";
+
+      if (percent >= 100) {
+        clearInterval(interval);
+        status.textContent = "Complete.";
+
+        // Open new tab
+        const newTab = window.open("", "_blank");
+        if (newTab) {
+          newTab.document.write(`
+            <h1 style="font-family:Arial;">SCORE 2.0 is now ready</h1>
+            <p>You may close this tab.</p>
+          `);
+        }
+      }
+    }, 200);
+  </script>
+</body>
+</html>
